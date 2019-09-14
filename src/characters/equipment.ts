@@ -1,6 +1,6 @@
-import { WearableItem } from './wearable-item';
+import { WearableItem } from '../items/wearable-item';
 
-export class CharacterEquipment {
+export class Equipment {
     public head?: WearableItem;
     public body?: WearableItem;
     public leftLeg?: WearableItem;

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc && node dist",
+    "watch": "tsc --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Joseph Harrison-Lim",
@@ -12,5 +13,8 @@
   "devDependencies": {
     "@types/node": "^12.7.5",
     "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "typedi": "^0.8.0"
   }
 }

@@ -1,3 +1,5 @@
+import { GameState } from './game-state';
+
 export class Game {
     private gameAlive = true;
     private gameState?: {} = {};
@@ -5,7 +7,11 @@ export class Game {
     constructor() {
     }
 
-    start(gameState) {
+    init() {
+        
+    }
+
+    start(gameState: GameState) {
         this.gameAlive = true;
 
         if(!gameState) {

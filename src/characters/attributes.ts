@@ -7,7 +7,7 @@ export class Attributes {
     private intelligence = 0;
     private agility = 0;
     private luck = 0;
-    
+
     get total() {
         let total = 0;
         for (let key in this) {
@@ -25,5 +25,9 @@ export class Attributes {
      */
     static attributeTotalLessThanInitialMax(attributes: Attributes, offset = 0) {
         attributes.total + offset < Attributes.maxInitialStats;
+    }
+
+    static createInitialAttributes() {
+
     }
 }
