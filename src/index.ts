@@ -1,1 +1,3 @@
-export { ConsoleGame } from './console-game';
+import 'reflect-metadata';
+
+export { ConsoleGame } from './engine/console-game';

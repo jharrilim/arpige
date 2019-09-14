@@ -9,6 +9,9 @@ const writeFile = promisify(fs.writeFile);
 const readFile = promisify(fs.readFile);
 const mkdir = promisify(fs.mkdir);
 
+import { Service } from 'typedi';
+
+@Service()
 export class Engine<TState extends new() => TState> {
 
     private gameState?: TState;
@@ -27,11 +30,19 @@ export class Engine<TState extends new() => TState> {
         const fp = join(savesDirectory, fileName);
         await writeFile(fp, state);
         this.lastSavedGameFilePath = fp;
+        
     }
 
     public async loadGameState(filePath: string) {
         const f = await readFile(filePath);
         const gameState = JSON.parse(f.toString()) as TState;
         return StateResolver.resolve(gameState, this.stateCtor);
+    }
+
+    public async loadLastGameState() {
+        if (!this.lastSavedGameFilePath) {
+            throw new Error('No last saved game present.');
+        }
+        return await this.loadGameState(this.lastSavedGameFilePath);
     }
 }
