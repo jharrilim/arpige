@@ -32,7 +32,6 @@ export class Engine<TState extends new() => TState> {
     public async loadGameState(filePath: string) {
         const f = await readFile(filePath);
         const gameState = JSON.parse(f.toString()) as TState;
-        StateResolver.resolve(gameState, this.stateCtor);
-        return gameState;
+        return StateResolver.resolve(gameState, this.stateCtor);
     }
 }
