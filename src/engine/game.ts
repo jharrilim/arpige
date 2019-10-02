@@ -1,17 +1,13 @@
 import { GameState, GameStateOpts } from './game-state';
 import { Player } from '../characters/player';
 import { Engine } from './engine';
+import { homeDataDirectory } from './platform';
 
 export abstract class Game {
     private gameAlive = true;
-    private gameState?: GameState;
     private engine: Engine<GameStateOpts, typeof GameState> = new Engine('arpige', GameState);
 
-    constructor() {
-
-    }
-
-    init() { }
+    constructor() { }
 
     abstract createNewPlayer(): Player;
 
@@ -23,12 +19,18 @@ export abstract class Game {
         }
 
         while (!this.gameAlive) {
-
+            
         }
     }
 
-    save() {
+    async save() {
+        await this.engine.saveGameState(
+            homeDataDirectory()('save.json')
+        );
+    }
 
+    async load() {
+        await this.engine.loadGameState(homeDataDirectory()('save.json'));
     }
 
     stop() {
