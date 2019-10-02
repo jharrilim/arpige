@@ -1,7 +1,7 @@
 import { platform, homedir } from 'os';
 import { join } from 'path';
 
-function capitalizeFirstLetter (s: string) {
+function capitalizeFirstLetter(s: string) {
     const str = s.toLowerCase();
     str[0].toUpperCase();
     return str;
@@ -15,7 +15,7 @@ function capitalizeFirstLetter (s: string) {
  * @export
  * @returns {(s: string) => string}
  */
-export function homeDataDirectory () {
+export function homeDataDirectory() {
     const home = homedir();
     switch (platform()) {
         case 'win32':

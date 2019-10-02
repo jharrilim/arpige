@@ -1,24 +1,19 @@
-import fs from 'fs';
-import { promisify } from 'util';
+import { mkdir, writeFile, readFile } from '../fs';
 import assert from 'assert';
 import { homeDataDirectory } from './platform';
 import { join } from 'path';
 import { StateResolver } from './state-resolver';
 
-const writeFile = promisify(fs.writeFile);
-const readFile = promisify(fs.readFile);
-const mkdir = promisify(fs.mkdir);
-
 import { Service } from 'typedi';
 
 @Service()
-export class Engine<TState extends new() => TState> {
+export class Engine<TStateOpts, TConstructor extends new (state: TStateOpts) => InstanceType<TConstructor>> {
 
-    private gameState?: TState;
+    private gameState?: TConstructor;
 
     private lastSavedGameFilePath?: string;
 
-    constructor(private readonly name: string, private readonly stateCtor: TState) {
+    constructor(private readonly name: string, private readonly StateCtor: TConstructor) {
         assert.strictEqual(name.length >= 1, true, 'The name given to the engine must be greater than 1 character.');
     }
 
@@ -30,13 +25,13 @@ export class Engine<TState extends new() => TState> {
         const fp = join(savesDirectory, fileName);
         await writeFile(fp, state);
         this.lastSavedGameFilePath = fp;
-        
+
     }
 
     public async loadGameState(filePath: string) {
         const f = await readFile(filePath);
-        const gameState = JSON.parse(f.toString()) as TState;
-        return StateResolver.resolve(gameState, this.stateCtor);
+        const gameState = JSON.parse(f.toString()) as TStateOpts;
+        return StateResolver.resolve(gameState, this.StateCtor);
     }
 
     public async loadLastGameState() {

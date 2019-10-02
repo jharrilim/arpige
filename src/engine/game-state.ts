@@ -1,12 +1,15 @@
 import { Player } from '../characters/player';
 
-export class GameState {
-    private player: Player;
-    constructor(opts: { player: Player }) {
-        this.player = opts.player;
-    }
+export interface GameStateOpts {
+    player?: Player;
+}
 
-    static createInitialState() {
-        
+export class GameState {
+    private player?: Player;
+    constructor(state: GameStateOpts) {
+        this.player = state.player;
+    }
+    static createInitialState(player: Player) {
+        return new GameState({ player });
     }
 }
